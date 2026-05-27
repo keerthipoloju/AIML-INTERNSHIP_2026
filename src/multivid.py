@@ -1,20 +1,36 @@
 import cv2
-import os
+import numpy as np
 
-folder_path = r'C:\Users\keert\OneDrive\Documents\videos'
+cap1 = cv2.VideoCapture("data/video1.mp4")
+cap2 = cv2.VideoCapture("data/video2.mp4")
 
+if not cap1.isOpened() or not cap2.isOpened():
+    print("Error opening videos.")
+    exit()
 
-for filename in os.listdir(folder_path):
-   
-    file_path = os.path.join(folder_path, filename)
+while True:
 
-    image = cv2.imread(file_path)
-    if image is not None:
-       
-        cv2.imshow('Image', image)
-        cv2.waitKey(0)      
-        cv2.destroyAllWindows()
-        print(f"{filename} dimensions: {image.shape}")
-    else:
-        print(f"Failed to load {filename}")
+    ret1, frame1 = cap1.read()
+    ret2, frame2 = cap2.read()
+
+    if not ret1 or not ret2:
+        break
+
+    frame1 = cv2.resize(frame1,(640,360))
+    frame2 = cv2.resize(frame2,(640,360))
+
+    output = np.hstack((frame1,frame2))
+
+    cv2.imshow(
+        "Concatenated Video",
+        output
+    )
+
+    if cv2.waitKey(25) & 0xFF == ord('q'):
+        break
+
+cap1.release()
+cap2.release()
+
+cv2.destroyAllWindows()
 
