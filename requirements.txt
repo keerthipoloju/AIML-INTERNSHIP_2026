@@ -1,2 +1,9 @@
+streamlit
 opencv-python
+tensorflow
 numpy
+pandas
+joblib
+Pillow
+vaderSentiment
+pyarrow   # required for reading parquet files
